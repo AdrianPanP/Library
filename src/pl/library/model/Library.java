@@ -41,19 +41,12 @@ public class Library implements Serializable {
 
     public void addUser(LibraryUser user) {
         if (users.containsKey(user.getPesel())) {
-            throw new UserAlreadyExistException("Uzytkownik ze wskazanym peselem już istnieje");
+            throw new UserAlreadyExistException("Użytkownik ze wskazanym peselem już istnieje");
         }
         users.put(user.getPesel(), user);
     }
 
-    public boolean removePublication(Publication pub) {
-        if (publications.containsValue(pub)) {
-            publications.remove(pub.getTitle());
-            return true;
-        } else return false;
-    }
-
-    public Optional<Publication> findPublicationByTitle (String title){
+    public Optional<Publication> findPublicationByTitle(String title) {
         return Optional.ofNullable(publications.get(title));
     }
 }

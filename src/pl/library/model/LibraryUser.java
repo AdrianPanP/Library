@@ -14,7 +14,7 @@ public class LibraryUser extends User {
 
     @Override
     public String toCsv() {
-        return getFirstName() +";" + getLastName() + ";" + getPesel();
+        return getFirstName() + ";" + getLastName() + ";" + getPesel();
     }
 
     public List<Publication> getPublicationsHistory() {
@@ -25,17 +25,17 @@ public class LibraryUser extends User {
         return borrowedPublication;
     }
 
-    public void addPublicationToHistory(Publication pub){
+    public void addPublicationToHistory(Publication pub) {
         publicationsHistory.add(pub);
     }
 
-    public void borrowedPublications(Publication pub){
+    public void borrowedPublications(Publication pub) {
         borrowedPublication.add(pub);
     }
 
-    public boolean returnPublication(Publication pub){
+    public boolean returnPublication(Publication pub) {
         boolean result = false;
-        if (borrowedPublication.contains(pub)){
+        if (borrowedPublication.contains(pub)) {
             borrowedPublication.remove(pub);
             addPublicationToHistory(pub);
             result = true;

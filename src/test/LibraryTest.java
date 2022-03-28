@@ -17,6 +17,4 @@ class LibraryTest {
         Library library = new Library();
         Assertions.assertThrows(NullPointerException.class, ()-> library.addPublication(pub));
     }
-
-
 }

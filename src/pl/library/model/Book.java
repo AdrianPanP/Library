@@ -5,16 +5,11 @@ import java.util.Objects;
 public class Book extends Publication {
     public static final String TYPE = "Książka";
 
-
-    //Pola
     private String author;
     private int pages;
     private String isbn;
 
-
-    //Konstruktory
-
-    public Book(String title, String author, int year, int pages,  String publisher) {
+    public Book(String title, String author, int year, int pages, String publisher) {
         super(year, title, publisher);
         this.author = author;
         this.pages = pages;
@@ -27,13 +22,13 @@ public class Book extends Publication {
 
     @Override
     public String toCsv() {
-        return (TYPE + ";")+
-                getTitle() +";"+
-                getPublisher() +";"+
-                getYear() +";"+
-                author +";"+
-                pages +";"+
-                isbn +" ";
+        return (TYPE + ";") +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                author + ";" +
+                pages + ";" +
+                isbn + " ";
     }
 
     //getters and setters
@@ -65,7 +60,7 @@ public class Book extends Publication {
 
     @Override
     public String toString() {
-        return getTitle() + " " + author + " " + getYear() + " " +  pages + " " + getPublisher() + " " + isbn;
+        return getTitle() + " " + author + " " + getYear() + " " + pages + " " + getPublisher() + " " + isbn;
     }
 
     @Override
@@ -82,7 +77,5 @@ public class Book extends Publication {
     public int hashCode() {
         return Objects.hash(author, pages, isbn);
     }
-
-
 }
 

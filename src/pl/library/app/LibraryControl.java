@@ -68,8 +68,6 @@ LibraryControl {
                         pubIsPresent -> printer.printLine(pubIsPresent),
                         () -> printer.printLine(notFoundMessage)
                 );
-
-
     }
 
     private void deleteMagazine() {
@@ -129,7 +127,6 @@ LibraryControl {
         } catch (DataExportException e) {
             printer.printLine(e.getMessage());
         }
-
         printer.printLine("Wyjście z programu.");
         dataReader.close();
     }
@@ -148,10 +145,7 @@ LibraryControl {
             library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć książki, niepoprawne dane.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            printer.printLine("Maksymalna liczba książek została osiągnięta, nie można dodać kolejnej.");
         }
-
     }
 
     private void addMagazine() {
@@ -160,8 +154,6 @@ LibraryControl {
             library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć magazynu, niepoprawne dane.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            printer.printLine("Maksymalna liczba magazynów została osiągnięta, nie można dodać kolejnej.");
         }
     }
 
