@@ -5,7 +5,6 @@ import pl.library.model.*;
 import java.util.Collection;
 
 public class ConsolePrinter {
-    DataReader dataReader;
 
 
     public void printMagazines(Collection<Publication> publications) {

@@ -27,7 +27,6 @@ public class FileManagerBuilder {
         }
     }
 
-    // metoda pobierająca formatu pliku z klasy Enum FileType
     private FileType getFileType() {
         boolean typeOk = false;
         FileType result = null;
@@ -40,7 +39,6 @@ public class FileManagerBuilder {
                 typeOk = true;
             } catch (IllegalArgumentException e) {
                 System.out.println("Nieobsługiwany typ danych, wybierz ponownie.");
-                ;
             }
         } while (!typeOk);
         return result;

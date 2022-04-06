@@ -7,18 +7,15 @@ import pl.library.io.file.FileManager;
 import pl.library.io.file.FileManagerBuilder;
 import pl.library.model.*;
 
-
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.InputMismatchException;
-import java.util.Optional;
 
 public class
 LibraryControl {
 
-    private ConsolePrinter printer = new ConsolePrinter();
-    private DataReader dataReader = new DataReader(printer);
-    private FileManager fileManager;
+    private final ConsolePrinter printer = new ConsolePrinter();
+    private final DataReader dataReader = new DataReader(printer);
+    private final FileManager fileManager;
 
     private Library library;
 
@@ -46,19 +43,49 @@ LibraryControl {
                 case ADD_MAGAZINE -> addMagazine();
                 case PRINT_BOOKS -> printBooks();
                 case PRINT_MAGAZINES -> printMagazines();
-                case DELETE_BOOK -> deleteBook();
-                case DELETE_MAGAZINE -> deleteMagazine();
+                case DELETE_PUBLICATION -> deletePublication();
                 case ADD_USER -> addUser();
                 case PRINT_USERS -> printUsers();
-                case FIND_BOOK -> findBook();
+                case FIND_BOOK -> findPublication();
+                case BORROW_PUBLICATION -> borrowPublication();
+                case PRINT_BORROWED_PUBLICATIONS -> printBorrowedPublications();
                 case EXIT -> exit();
                 default -> printer.printLine("Nie ma takiej opcji, wprowadź ponownie");
             }
         } while (option != Option.EXIT);
     }
 
-    private void findBook() {
-        String notFoundMessage = "Nie znaleziono książki o takim tytule";
+    private void printBorrowedPublications() {
+        for (LibraryUser value : library.getUsers().values()) {
+            if (!value.getBorrowedPublication().isEmpty()){
+                printer.printLine(value.toString());
+                value.getBorrowedPublication().forEach(publication -> printer.printLine(publication.toString()));
+            }
+        }
+    }
+
+    private void borrowPublication() {
+        String notFoundMessage = "Nie znaleziono publikacji o takim tytule";
+        printer.printLine("Podaj pesel użytkownika na kogo ma zostać wypożyczona publikacja");
+        String getPesel = dataReader.getString();
+
+        if (library.getUsers().containsKey(getPesel)){
+            printer.printLine("Wybrano uzytkownika: " +library.getUsers().get(getPesel).toString());
+            printer.printLine("Podaj tytuł publikacji jaka ma zostać przypisana do uzytkownika");
+            String getTitle = dataReader.getString();
+            library.findPublicationByTitle(getTitle)
+                    .ifPresentOrElse(
+                            pubIsPresent -> library
+                                    .getUsers()
+                                    .get(getPesel)
+                                    .borrowedPublications(library.getPublications().get(getTitle)),
+                            () -> printer.printLine(notFoundMessage)
+                    );
+        }
+    }
+
+    private void findPublication() {
+        String notFoundMessage = "Nie znaleziono publikacji o takim tytule";
 
         printer.printLine("Podaj tytuł publikacji:");
         String title = dataReader.getString();
@@ -70,20 +97,12 @@ LibraryControl {
                 );
     }
 
-    private void deleteMagazine() {
+    private void deletePublication() {
         String key = dataReader.getTitleToDelete();
         if (library.getPublications().containsKey(key)) {
             library.getPublications().remove(key);
             printer.printLine("Usunięto " + key + " z bazy.");
-        } else printer.printLine("Nie znaleziono magazynu " + key + " w bazie.");
-    }
-
-    private void deleteBook() {
-        String key = dataReader.getTitleToDelete();
-        if (library.getPublications().containsKey(key)) {
-            library.getPublications().remove(key);
-            printer.printLine("Usunięto " + key + " z bazy.");
-        } else printer.printLine("Nie znaleziono magazynu " + key + " w bazie.");
+        } else printer.printLine("Nie znaleziono publikacji " + key + " w bazie.");
 
     }
 
@@ -98,7 +117,6 @@ LibraryControl {
 
     private void printUsers() {
         printer.printUser(library.getSortedUsers(
-//                (o1, o2) -> (o1.getLastName().compareToIgnoreCase(o2.getLastName()))
                 Comparator.comparing(User::getLastName, String.CASE_INSENSITIVE_ORDER)
         ));
     }
@@ -159,14 +177,12 @@ LibraryControl {
 
     private void printBooks() {
         printer.printBooks(library.getSortedPublications(
-//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
                 Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
         ));
     }
 
     private void printMagazines() {
         printer.printMagazines(library.getSortedPublications(
-//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
                 Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
         ));
     }
@@ -179,14 +195,15 @@ enum Option {
     ADD_MAGAZINE(2, "Dodaj magazyn"),
     PRINT_BOOKS(3, "Wyświetl dostępne książki"),
     PRINT_MAGAZINES(4, "Wyświetl dostępne magazyny"),
-    DELETE_BOOK(5, "Usuń książkę"),
-    DELETE_MAGAZINE(6, "Usuń magazyn"),
-    ADD_USER(7, "Dodaj czytelnika"),
-    PRINT_USERS(8, "Wyświetl użytkowników"),
-    FIND_BOOK(9, "Wyszukaj książkę");
+    DELETE_PUBLICATION(5, "Usuń publikację"),
+    ADD_USER(6, "Dodaj czytelnika"),
+    PRINT_USERS(7, "Wyświetl użytkowników"),
+    FIND_BOOK(8, "Wyszukaj książkę"),
+    BORROW_PUBLICATION (9, "Wypożycz książkę lub magazyn"),
+    PRINT_BORROWED_PUBLICATIONS(10, "Wyświetl wypozyczone pozycje");
 
 
-    private int value;
+    private final int value;
     private final String description;
 
     Option(int value, String description) {

@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class DataReader {
     private Scanner sc = new Scanner(System.in);
     private ConsolePrinter printer;
-
     public DataReader(ConsolePrinter printer) {
         this.printer = printer;
     }

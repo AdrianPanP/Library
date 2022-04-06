@@ -29,7 +29,7 @@ public class CsvFileManager implements FileManager {
 
     private void importUsers(Library library) {
         try (
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME));
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))
         ) {
             bufferedReader.lines()
                     .map(this::createUserFromString)
@@ -52,7 +52,7 @@ public class CsvFileManager implements FileManager {
 
     private void importPublications(Library library) {
         try (
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))
         ) {
             bufferedReader.lines()
                     .map(this::createObjectFromString)
@@ -99,8 +99,12 @@ public class CsvFileManager implements FileManager {
     public void exportData(Library library) {
         exportPublications(library);
         exportUsers(library);
-
+//        exportBorrowedPublications(library);
     }
+
+//    private void exportBorrowedPublications(Library library) {
+//        Collection<LibraryUser> BorrowedPub = library.getUsers().values();
+//    }
 
     private void exportUsers(Library library) {
         Collection<LibraryUser> users = library.getUsers().values();
@@ -116,7 +120,7 @@ public class CsvFileManager implements FileManager {
     private <T extends CsvConvertible> void exportToCsv(Collection<T> collection, String fileName) {
         try (
                 FileWriter fileWriter = new FileWriter(fileName);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
         ) {
             for (T element : collection) {
                 bufferedWriter.write(element.toCsv());

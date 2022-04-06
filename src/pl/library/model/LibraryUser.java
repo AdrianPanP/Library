@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class LibraryUser extends User {
-    private List<Publication> publicationsHistory = new ArrayList<>();
-    private List<Publication> borrowedPublication = new ArrayList<>();
+    private final List<Publication> publicationsHistory = new ArrayList<>();
+    private final List<Publication> borrowedPublication = new ArrayList<>();
 
     public LibraryUser(String firstName, String lastName, String pesel) {
         super(firstName, lastName, pesel);

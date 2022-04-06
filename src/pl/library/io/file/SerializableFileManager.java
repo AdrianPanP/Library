@@ -13,9 +13,9 @@ public class SerializableFileManager implements FileManager {
     public Library importData() {
         try     (
                 FileInputStream fis =new FileInputStream(FILE_NAME) ;
-                ObjectInputStream ois = new ObjectInputStream(fis);
+                ObjectInputStream ois = new ObjectInputStream(fis)
                 ){
-            return (Library) ois.readObject();  //Niezbędne rzutowanie, metoda zwraca typ Object
+            return (Library) ois.readObject();
         } catch(FileNotFoundException e){
             throw new DataImportException("Brak pliku: " + FILE_NAME);
         } catch(IOException e){
@@ -29,7 +29,7 @@ public class SerializableFileManager implements FileManager {
     public void exportData(Library library) {
         try     (
                 FileOutputStream fos = new FileOutputStream(FILE_NAME);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                ObjectOutputStream oos = new ObjectOutputStream(fos)
 
                 )
         {

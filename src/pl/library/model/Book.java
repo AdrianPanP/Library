@@ -31,7 +31,7 @@ public class Book extends Publication {
                 isbn + " ";
     }
 
-    //getters and setters
+
     public String getAuthor() {
         return author;
     }
@@ -40,7 +40,6 @@ public class Book extends Publication {
         this.author = author;
     }
 
-
     public int getPages() {
         return pages;
     }
@@ -48,7 +47,6 @@ public class Book extends Publication {
     public void setPages(int pages) {
         this.pages = pages;
     }
-
 
     public String getIsbn() {
         return isbn;
